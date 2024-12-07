@@ -4,6 +4,7 @@ export const SET_WORD = "SETWORD";
 export const SET_CHAR = "SETCHAR";
 export const TIMER_DECREMENT = "TIMERDECREMENT";
 export const APPEND_TYPED_HISTORY = "APPENDTYPEDHISTORY";
+export const APPEND_KEY = "APPENDKEY";
 export const TIMER_SET = "TIMERSET";
 export const TIMERID_SET = "TIMERIDSET";
 export const PREV_WORD = "PREVWORD";
@@ -28,6 +29,10 @@ export const setChar = (payload: string) => ({ type: SET_CHAR, payload });
 export const setTypedWord = (payload: string) => ({ type: SET_CHAR, payload });
 export const appendTypedHistory = () => ({
     type: APPEND_TYPED_HISTORY,
+});
+export const appendKey = (payload: string) => ({
+    type: APPEND_KEY,
+    payload,
 });
 export const backtrackWord = (payload: boolean) => ({
     type: PREV_WORD,

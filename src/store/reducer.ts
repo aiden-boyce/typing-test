@@ -7,6 +7,7 @@ import {
     TIMERID_SET,
     TIMER_SET,
     APPEND_TYPED_HISTORY,
+    APPEND_KEY,
     PREV_WORD,
     SET_WORDLIST,
     SET_THEME,
@@ -29,6 +30,7 @@ export interface State {
         wordList: string[];
         activeWordRef: RefObject<HTMLDivElement> | null;
         caretRef: RefObject<HTMLSpanElement> | null;
+        charHistory: string[];
     };
     time: {
         timer: number;
@@ -49,6 +51,7 @@ export const initialState: State = {
         wordList: [],
         activeWordRef: null,
         caretRef: null,
+        charHistory: [],
     },
     time: {
         timer: 1,
@@ -77,6 +80,8 @@ const wordReducer = (
     { type, payload }: AnyAction
 ) => {
     switch (type) {
+        case APPEND_KEY:
+            return { ...state, charHistory: [...state.charHistory, payload] };
         case SET_CHAR:
             return { ...state, typedWord: payload };
         case SET_WORD:
@@ -122,6 +127,7 @@ const wordReducer = (
                 ...state,
                 typedWord: "",
                 typedHistory: [],
+                charHistory: [],
                 currWord: shuffledWordList[0],
                 wordList: shuffledWordList,
             };

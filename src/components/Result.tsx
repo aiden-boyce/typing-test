@@ -6,7 +6,7 @@ import { useEffect } from "react";
 
 export default function Result() {
     const {
-        word: { wordList, typedHistory, currWord },
+        word: { wordList, typedHistory, currWord, charHistory },
         preferences: { timeLimit },
     } = useSelector((state: State) => state);
     const spaces = wordList.indexOf(currWord);
@@ -26,6 +26,7 @@ export default function Result() {
         Accuracy:
             Math.round((result.filter((x) => x).length / result.length) * 100) +
             "%",
+        History: charHistory.join(""),
     };
     const csvmaker = function (data: Object) {
         // Empty array for storing the values

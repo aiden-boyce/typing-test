@@ -3,6 +3,7 @@ import {
     backtrackWord,
     setChar,
     setTypedWord,
+    appendKey,
 } from "store/actions";
 import { store } from "store/store";
 import { resetTest } from "./resetTest";
@@ -66,6 +67,7 @@ export const recordTest = (key: string, ctrlKey: boolean) => {
             }
             break;
         case " ":
+            dispatch(appendKey(" "));
             if (typedWord === "") return;
             currWordEl.classList.add(
                 typedWord !== currWord ? "wrong" : "right"
@@ -73,9 +75,11 @@ export const recordTest = (key: string, ctrlKey: boolean) => {
             dispatch(appendTypedHistory());
             break;
         case "Backspace":
+            dispatch(appendKey("←"));
             handleBackspace(ctrlKey);
             break;
         default:
+            dispatch(appendKey(key));
             dispatch(setChar(typedWord + key));
             break;
     }
