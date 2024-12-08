@@ -8,6 +8,7 @@ import {
     TIMER_SET,
     APPEND_TYPED_HISTORY,
     APPEND_KEY,
+    APPEND_DISTANCE,
     PREV_WORD,
     SET_WORDLIST,
     SET_THEME,
@@ -31,6 +32,7 @@ export interface State {
         activeWordRef: RefObject<HTMLDivElement> | null;
         caretRef: RefObject<HTMLSpanElement> | null;
         charHistory: string[];
+        distances: number[];
     };
     time: {
         timer: number;
@@ -52,6 +54,7 @@ export const initialState: State = {
         activeWordRef: null,
         caretRef: null,
         charHistory: [],
+        distances: []
     },
     time: {
         timer: 1,
@@ -82,6 +85,8 @@ const wordReducer = (
     switch (type) {
         case APPEND_KEY:
             return { ...state, charHistory: [...state.charHistory, payload] };
+        case APPEND_DISTANCE:
+            return { ...state, distances: [...state.distances, payload] };
         case SET_CHAR:
             return { ...state, typedWord: payload };
         case SET_WORD:
