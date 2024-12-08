@@ -60,10 +60,7 @@ export const initialState: State = {
         caretRef: null,
         charHistory: [],
         distances: [],
-<<<<<<< HEAD
         testDuration:0,
-=======
->>>>>>> bfaa443cfc7bb69ba43c0166585ef1710f3bca15
     },
     time: {
         timer: 1,
