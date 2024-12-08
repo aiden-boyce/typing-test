@@ -68,6 +68,7 @@ export const recordTest = (key: string, ctrlKey: boolean) => {
             break;
         case " ":
             dispatch(appendKey(" "));
+
             if (typedWord === "") return;
             currWordEl.classList.add(
                 typedWord !== currWord ? "wrong" : "right"
@@ -79,7 +80,7 @@ export const recordTest = (key: string, ctrlKey: boolean) => {
             handleBackspace(ctrlKey);
             break;
         default:
-            dispatch(appendKey(key));
+            dispatch(appendKey(key.toLowerCase()));
             dispatch(setChar(typedWord + key));
             break;
     }

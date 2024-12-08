@@ -7,6 +7,7 @@ import {
     setType,
     setWordList,
     timerSet,
+    setPromptID,
 } from "store/actions";
 import { State } from "store/reducer";
 import "stylesheets/Header.scss";
@@ -51,12 +52,13 @@ export const options: Options = {
         "got",
         "javascript",
         "python",
+        "CS_TEST"
     ],
 };
 
 export default function Header() {
     const {
-        preferences: { timeLimit, theme, type },
+        preferences: { timeLimit, theme, type, pid},
         time: { timerId },
     } = useSelector((state: State) => state);
     const [animationProps, setAnimationProps] =
@@ -67,9 +69,32 @@ export default function Header() {
         const theme = localStorage.getItem("theme") || "default";
         const type = localStorage.getItem("type") || "words";
         const time = parseInt(localStorage.getItem("time") || "60", 10);
-        import(`wordlists/${type}.json`).then((words) =>
+        if (type == "CS_TEST") {
+            import(`wordlists/typing_prompts.json`).then((dct) => {
+                let fnd = false
+                let prompt_id : string | null = null
+                let words : string = "not found"
+                let prompt_string : string = ""
+
+                if(pid != "") {
+                    prompt_string = pid
+                    words = `${dct[prompt_string]}`
+                } else {
+                    while(!fnd){
+                        prompt_id = prompt("Enter prompt id")
+                        prompt_string = `${prompt_id}`  
+                        if(dct[prompt_string]){ words = `${dct[prompt_string]}`; fnd=true;}
+                    }
+                }
+                
+                dispatch(setPromptID(prompt_string))
+                dispatch(setWordList(words.split(" ").map((w)=>w.toLowerCase())))
+            })
+        } else {
+            import(`wordlists/${type}.json`).then((words) =>
             dispatch(setWordList(words.default))
         );
+        }
         dispatch(timerSet(time));
         dispatch(setType(type));
         dispatch(setTime(time));

@@ -16,6 +16,7 @@ import {
     SET_REF,
     SET_CARET_REF,
     SET_TYPE,
+    SET_PID,
 } from "./actions";
 
 export interface State {
@@ -23,6 +24,7 @@ export interface State {
         theme: string;
         timeLimit: number;
         type: string;
+        pid: string;
     };
     word: {
         currWord: string;
@@ -45,6 +47,7 @@ export const initialState: State = {
         theme: "",
         timeLimit: 0,
         type: "",
+        pid:"",
     },
     word: {
         currWord: "",
@@ -158,6 +161,8 @@ const preferenceReducer = (
                 ...state,
                 type: payload,
             };
+        case SET_PID:
+            return {...state, pid: payload};
         default:
             return state;
     }

@@ -63,18 +63,15 @@ const calculateDistance = (k1: string, k2: string) => {
     let [x2,y2] = key_pos[k2]
     let d = Math.sqrt(Math.pow(x1-x2, 2)+Math.pow(y1-y2, 2))
 
-    d =  Math.floor(d) // round down (for fun + simplicity)
-    let s = d.toString(16)
+    console.log(`${k1}-${k2} : ${d}`)
 
-    console.log(`${k1} | ${k2} : ${s}`)
-
-    return (s.length==1 ? "0"+s : s) // add the padding 0 if d < 16
+    return d
 }
 
 export default function Result() {
     const {
         word: { wordList, typedHistory, currWord, charHistory },
-        preferences: { timeLimit },
+        preferences: { timeLimit, pid },
     } = useSelector((state: State) => state);
     const spaces = wordList.indexOf(currWord);
     let correctChars = 0;
@@ -82,7 +79,7 @@ export default function Result() {
         (typedWord, idx) => typedWord === wordList[idx]
     );
 
-    let distances : string[] = []
+    let distances : number[] = []
     let i = 0;
     let m : number[] = [];
     let lastMistake = -1;
@@ -99,7 +96,7 @@ export default function Result() {
                 } else {
                     distances.push(calculateDistance(c, wordStr[i]))
                 }
-                i--
+                i-=2
                 break;
 
             default:
@@ -112,21 +109,31 @@ export default function Result() {
         i++
     })
 
+    let nearMisses = 0
+    let totalMisses = 0
+    let totalcharacters = 0
+    distances.forEach((d)=>{
+        
+        console.log(d)
+        if (d){
+            if (d<=1.5) nearMisses++;
+            totalMisses++;
+        }
+        totalcharacters++
+    })
+
     result.forEach((r, idx) => {
         if (r) correctChars += wordList[idx].length;
     });
     const wpm = ((correctChars + spaces) * 60) / timeLimit / 5;
-
+    console.log(`pid is ${pid}`)
     let csvObject = {
+        prompt_id: pid,
         WPM: Math.round(wpm),
-        "Correct Words": result.filter((x) => x).length,
-        "Incorrect Words": result.filter((x) => !x).length,
-        Accuracy:
-            Math.round((result.filter((x) => x).length / result.length) * 100) +
-            "%",
-        History: charHistory.join(""),
-        Distances: distances.join(" "),
-        test: wordStr
+        accuracy: `${Math.round(((totalcharacters-totalMisses)/totalcharacters)*1000)/10} %`,
+        time:timeLimit,
+        totalMisses: totalMisses,
+        nearMisses: nearMisses,
     };
     const csvmaker = function (data: Object) {
         // Empty array for storing the values
