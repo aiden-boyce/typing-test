@@ -52,7 +52,7 @@ export default function App() {
         const currWordEl = activeWordRef?.current!;
         if (currWordEl && idx < currWord.length)
             currWordEl.children[idx + 1].classList.remove("wrong", "right");
-    }, [currWord.length, typedWord, activeWordRef]);
+    }, [(currWord ? currWord.length : 0), typedWord, activeWordRef]);
 
     useEffect(() => {
         if (!timer && timerId) {

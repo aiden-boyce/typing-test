@@ -70,7 +70,7 @@ const calculateDistance = (k1: string, k2: string) => {
 
 export default function Result() {
     const {
-        word: { wordList, typedHistory, currWord, charHistory },
+        word: { wordList, typedHistory, currWord, charHistory, testDuration },
         preferences: { timeLimit, pid },
     } = useSelector((state: State) => state);
     const spaces = wordList.indexOf(currWord);
@@ -131,7 +131,7 @@ export default function Result() {
         prompt_id: pid,
         WPM: Math.round(wpm),
         accuracy: `${Math.round(((totalcharacters-totalMisses)/totalcharacters)*1000)/10} %`,
-        time:timeLimit,
+        time:(testDuration ? testDuration : timeLimit),
         totalMisses: totalMisses,
         nearMisses: nearMisses,
     };

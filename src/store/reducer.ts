@@ -17,6 +17,7 @@ import {
     SET_CARET_REF,
     SET_TYPE,
     SET_PID,
+    RECORD_DURATION,
 } from "./actions";
 
 export interface State {
@@ -35,6 +36,7 @@ export interface State {
         caretRef: RefObject<HTMLSpanElement> | null;
         charHistory: string[];
         distances: number[];
+        testDuration: number;
     };
     time: {
         timer: number;
@@ -57,7 +59,8 @@ export const initialState: State = {
         activeWordRef: null,
         caretRef: null,
         charHistory: [],
-        distances: []
+        distances: [],
+        testDuration:0,
     },
     time: {
         timer: 1,
@@ -94,6 +97,8 @@ const wordReducer = (
             return { ...state, typedWord: payload };
         case SET_WORD:
             return { ...state, typedHistory: [...state.typedHistory, payload] };
+        case RECORD_DURATION:
+            return { ...state, testDuration: payload };
         case APPEND_TYPED_HISTORY:
             const nextIdx = state.typedHistory.length + 1;
             return {

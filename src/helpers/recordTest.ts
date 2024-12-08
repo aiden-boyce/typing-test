@@ -4,6 +4,10 @@ import {
     setChar,
     setTypedWord,
     appendKey,
+    timerSet,
+    setTime,
+    setTimerId,
+    recordDuration
 } from "store/actions";
 import { store } from "store/store";
 import { resetTest } from "./resetTest";
@@ -43,7 +47,7 @@ export const recordTest = (key: string, ctrlKey: boolean) => {
     const { dispatch, getState } = store;
     const {
         time: { timer, timerId },
-        word: { typedWord, currWord, activeWordRef, caretRef },
+        word: { typedWord, currWord, activeWordRef, caretRef, wordList, typedHistory },
         preferences: { timeLimit },
     } = getState();
 
@@ -74,6 +78,17 @@ export const recordTest = (key: string, ctrlKey: boolean) => {
                 typedWord !== currWord ? "wrong" : "right"
             );
             dispatch(appendTypedHistory());
+            
+            let nxt_wrd = wordList[typedHistory.length+1]
+            console.log(nxt_wrd)
+            if(!nxt_wrd){
+                console.log("end detected")
+                // end the test
+                clearInterval(timerId);
+                dispatch(recordDuration(timeLimit-timer))
+                dispatch(timerSet(0))
+                return
+            }
             break;
         case "Backspace":
             dispatch(appendKey("←"));

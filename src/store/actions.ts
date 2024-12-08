@@ -16,6 +16,7 @@ export const SET_REF = "SETREF";
 export const SET_CARET_REF = "SETCARETREF";
 export const SET_TYPE = "SETTYPE";
 export const SET_PID = "SETPID"
+export const RECORD_DURATION = "RECORDDURATION"
 
 // Time Actions
 export const timerDecrement = () => ({ type: TIMER_DECREMENT });
@@ -66,5 +67,10 @@ export const setType = (payload: string) => ({
 });
 export const setPromptID = (payload: string) => ({
     type: SET_PID,
+    payload
+})
+
+export const recordDuration = (payload: number) => ({
+    type:RECORD_DURATION,
     payload
 })

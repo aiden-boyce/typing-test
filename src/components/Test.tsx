@@ -10,7 +10,7 @@ export default function Test() {
         time: { timer },
     } = useSelector((state: State) => state);
     const dispatch = useDispatch();
-    const extraLetters = typedWord.slice(currWord.length).split("");
+    const extraLetters = typedWord.slice((currWord ? currWord.length : 0)).split("");
     const activeWord = useRef<HTMLDivElement>(null);
     const caretRef = useRef<HTMLSpanElement>(null);
 
