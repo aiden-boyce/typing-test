@@ -49,7 +49,7 @@ export const initialState: State = {
         theme: "",
         timeLimit: 0,
         type: "",
-        pid:"",
+        pid: "",
     },
     word: {
         currWord: "",
@@ -60,7 +60,10 @@ export const initialState: State = {
         caretRef: null,
         charHistory: [],
         distances: [],
+<<<<<<< HEAD
         testDuration:0,
+=======
+>>>>>>> bfaa443cfc7bb69ba43c0166585ef1710f3bca15
     },
     time: {
         timer: 1,
@@ -126,9 +129,12 @@ const wordReducer = (
                 caretRef: payload,
             };
         case SET_WORDLIST:
+            /*
             const areNotWords = payload.some((word: string) =>
                 word.includes(" ")
             );
+            */
+            /*
             var shuffledWordList: string[] = payload.sort(
                 () => Math.random() - 0.5
             );
@@ -136,13 +142,17 @@ const wordReducer = (
                 shuffledWordList = payload.flatMap((token: string) =>
                     token.split(" ")
                 );
+            */
+            const wordList = payload.flatMap((token: string) =>
+                token.split(" ").map((word: string) => word.toLowerCase())
+            );
             return {
                 ...state,
                 typedWord: "",
                 typedHistory: [],
                 charHistory: [],
-                currWord: shuffledWordList[0],
-                wordList: shuffledWordList,
+                currWord: wordList[0],
+                wordList: wordList,
             };
         default:
             return state;
@@ -167,7 +177,7 @@ const preferenceReducer = (
                 type: payload,
             };
         case SET_PID:
-            return {...state, pid: payload};
+            return { ...state, pid: payload };
         default:
             return state;
     }
