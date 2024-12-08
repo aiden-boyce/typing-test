@@ -122,13 +122,18 @@ export default function Result() {
     result.forEach((r, idx) => {
         if (r) correctChars += wordList[idx].length;
     });
-    const wpm = totalcharacters / 5 / (timeLimit / 60);
+    const wpm =
+        totalcharacters / 5 / ((testDuration ? testDuration : timeLimit) / 60);
     console.log(`pid is ${pid}`);
     let csvObject = {
         prompt_id: pid,
         WPM: Math.round(wpm),
-        accuracy: `${Math.round(((totalcharacters-totalMisses)/totalcharacters)*1000)/10} %`,
-        time:(testDuration ? testDuration : timeLimit),
+        accuracy: `${
+            Math.round(
+                ((totalcharacters - totalMisses) / totalcharacters) * 1000
+            ) / 10
+        } %`,
+        time: testDuration ? testDuration : timeLimit,
         totalMisses: totalMisses,
         nearMisses: nearMisses,
     };
